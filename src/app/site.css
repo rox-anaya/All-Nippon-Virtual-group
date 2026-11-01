@@ -487,3 +487,131 @@ button { color: inherit; }
   .home-admin-save-footer { align-items: stretch; flex-direction: column; }
   .home-admin-save-footer .primary-button { width: 100%; }
 }
+
+/* Stage 3 — About, Staff and Pilots pages */
+.community-page { padding-bottom: 88px; }
+.community-hero { padding-top: clamp(58px, 8vw, 92px); }
+.community-page .page-heading h1 span { color: #dce9f5; }
+.community-page .page-heading p { max-width: 760px; }
+.community-overline { color: var(--red); font-size: 8px; font-weight: 800; letter-spacing: .19em; }
+.community-section { margin-top: clamp(58px, 7vw, 86px); }
+.community-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+.about-intro-card { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr); align-items: center; gap: 24px; min-height: 390px; margin-top: 34px; padding: clamp(25px, 5vw, 50px); overflow: hidden; }
+.about-intro-card::after { position: absolute; top: -170px; right: -150px; width: 440px; height: 440px; border: 1px solid rgba(127,194,255,.09); border-radius: 50%; box-shadow: 0 0 0 35px rgba(127,194,255,.018), 0 0 0 70px rgba(127,194,255,.012); content: ""; pointer-events: none; }
+.about-intro-copy { position: relative; z-index: 1; max-width: 650px; }
+.about-intro-copy h2 { margin: 13px 0 16px; font-size: clamp(35px, 5.4vw, 58px); line-height: 1.04; letter-spacing: -.065em; }
+.about-intro-copy h2 span { color: var(--blue); }
+.about-intro-copy > p { max-width: 600px; margin: 0; color: #c2d0df; font-size: 14px; line-height: 1.85; }
+.about-emblem { position: relative; display: grid; min-height: 285px; place-items: center; }
+.about-orbit { position: absolute; width: min(82%, 260px); aspect-ratio: 1; border: 1px solid rgba(127,194,255,.25); border-radius: 50%; }
+.about-orbit-one { transform: rotateX(58deg) rotate(-25deg); }
+.about-orbit-two { width: min(95%, 300px); transform: rotateX(65deg) rotate(35deg); border-color: rgba(185,87,98,.25); }
+.about-emblem-core { position: relative; display: flex; width: 142px; height: 142px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(127,194,255,.35); border-radius: 50%; background: radial-gradient(circle, rgba(48,123,171,.25), rgba(5,17,30,.82) 72%); color: var(--blue); box-shadow: 0 0 45px rgba(43,133,190,.12), inset 0 0 30px rgba(127,194,255,.06); }
+.about-emblem-core span { font-size: 10px; font-weight: 800; letter-spacing: .22em; }
+.about-emblem-caption { position: absolute; bottom: 8px; color: var(--muted-2); font-size: 8px; letter-spacing: .22em; }
+.about-principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 13px; }
+.about-principle-card { min-height: 205px; padding: 23px; }
+.about-principle-top { display: flex; align-items: center; justify-content: space-between; color: var(--blue); }
+.about-principle-top span { color: var(--muted-2); font-size: 9px; letter-spacing: .16em; }
+.about-principle-card h3 { margin: 28px 0 9px; font-size: 18px; letter-spacing: -.035em; }
+.about-principle-card p { margin: 0; color: #b9c8d8; font-size: 12px; line-height: 1.8; }
+.about-mission-card { position: relative; display: grid; grid-template-columns: .7fr 1.3fr; gap: 25px; align-items: start; padding: clamp(24px, 4vw, 38px); overflow: hidden; }
+.about-mission-card h2 { margin: 9px 0 0; font-size: 28px; letter-spacing: -.045em; }
+.about-mission-card > p { position: relative; z-index: 1; margin: 0; color: #c5d2df; font-size: 14px; line-height: 1.9; }
+.about-mission-mark { position: absolute; right: 24px; bottom: -25px; color: rgba(127,194,255,.055); font-size: 85px; font-weight: 850; letter-spacing: -.08em; pointer-events: none; }
+.about-disclaimer { display: flex; align-items: center; gap: 13px; margin-top: 32px; }
+.about-disclaimer-line { width: 27px; height: 1px; flex: 0 0 auto; background: var(--red); }
+.about-disclaimer p { margin: 0; color: var(--muted-2); font-size: 10px; line-height: 1.6; }
+
+.directory-summary { display: flex; align-items: center; gap: 16px; margin-top: 30px; padding: 17px 21px; }
+.directory-summary-icon { display: grid; width: 42px; height: 42px; flex: 0 0 auto; place-items: center; border: 1px solid rgba(127,194,255,.24); border-radius: 13px; background: rgba(127,194,255,.08); color: var(--blue); }
+.directory-summary > div:not(.directory-summary-icon):not(.directory-summary-divider) { display: flex; flex-direction: column; gap: 3px; }
+.directory-summary strong { font-size: 20px; letter-spacing: -.045em; }
+.directory-summary span:not(.directory-summary-note) { color: var(--muted-2); font-size: 9px; }
+.directory-summary-divider { width: 1px; height: 36px; margin: 0 5px; background: var(--line-strong); }
+.directory-summary-note { margin-left: auto; color: var(--muted-2); font-size: 8px; letter-spacing: .15em; }
+.directory-content { min-height: 260px; }
+.directory-empty { display: flex; min-height: 305px; flex-direction: column; align-items: flex-start; justify-content: center; padding: clamp(25px, 5vw, 48px); }
+.directory-empty-icon { display: grid; width: 52px; height: 52px; place-items: center; margin-bottom: 22px; border: 1px solid rgba(127,194,255,.25); border-radius: 16px; background: rgba(127,194,255,.08); color: var(--blue); }
+.directory-empty h2 { max-width: 620px; margin: 11px 0 9px; font-size: clamp(24px, 4vw, 34px); letter-spacing: -.05em; }
+.directory-empty > p { max-width: 560px; margin: 0; color: #bac9d8; font-size: 13px; line-height: 1.8; }
+.directory-empty .text-link, .directory-empty .primary-button { margin-top: 22px; }
+.staff-role-section + .staff-role-section { margin-top: 44px; }
+.staff-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 13px; }
+.staff-card { display: flex; min-width: 0; min-height: 290px; flex-direction: column; align-items: center; padding: 19px 21px 21px; text-align: center; }
+.staff-card-topline { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 17px; }
+.staff-role-label { overflow: hidden; color: var(--blue); font-size: 8px; font-weight: 750; letter-spacing: .12em; text-overflow: ellipsis; white-space: nowrap; }
+.staff-card-mark { color: var(--muted-2); font-size: 8px; font-weight: 800; letter-spacing: .14em; }
+.staff-avatar-image, .staff-avatar-fallback { display: grid; width: 92px; height: 92px; flex: 0 0 auto; place-items: center; border: 1px solid rgba(127,194,255,.25); border-radius: 50%; background: linear-gradient(145deg, rgba(37,99,143,.5), rgba(8,23,39,.9)); color: #dcecff; object-fit: cover; }
+.staff-avatar-fallback { font-size: 24px; font-weight: 750; letter-spacing: -.04em; }
+.staff-card h3 { margin: 17px 0 7px; font-size: 17px; letter-spacing: -.03em; }
+.staff-card > p { max-width: 330px; margin: 0; color: #b9c8d8; font-size: 11px; line-height: 1.75; }
+.staff-card > p.staff-no-description { color: var(--muted-2); }
+.staff-profile-link { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 18px; color: var(--blue); font-size: 10px; font-weight: 700; }
+
+.pilot-stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-top: 30px; }
+.pilot-stat-card { display: grid; grid-template-columns: 24px 1fr; column-gap: 11px; align-items: center; padding: 18px 20px; }
+.pilot-stat-card svg { grid-row: span 2; color: var(--blue); }
+.pilot-stat-card strong { font-size: 22px; line-height: 1.1; letter-spacing: -.045em; }
+.pilot-stat-card span { margin-top: 5px; color: var(--muted-2); font-size: 9px; }
+.pilot-leaders-panel + .pilot-roster-panel { margin-top: 54px; }
+.pilot-leaders-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 13px; }
+.pilot-leader-card { position: relative; display: flex; min-width: 0; min-height: 300px; flex-direction: column; align-items: center; padding: 22px; text-align: center; overflow: hidden; }
+.pilot-leader-card::after { position: absolute; top: -48px; right: -48px; width: 130px; height: 130px; border: 1px solid rgba(127,194,255,.12); border-radius: 50%; box-shadow: 0 0 0 18px rgba(127,194,255,.018); content: ""; pointer-events: none; }
+.pilot-leader-rank { display: flex; align-items: center; gap: 6px; align-self: flex-start; color: var(--gold); font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+.pilot-avatar-image, .pilot-avatar-fallback { display: grid; width: 82px; height: 82px; flex: 0 0 auto; place-items: center; margin-top: 10px; border: 1px solid rgba(127,194,255,.28); border-radius: 50%; background: linear-gradient(145deg, rgba(37,99,143,.5), rgba(8,23,39,.9)); color: #dcecff; object-fit: cover; }
+.pilot-avatar-fallback { font-size: 23px; font-weight: 750; }
+.pilot-leader-card h3 { margin: 13px 0 5px; font-size: 16px; }
+.pilot-rank-label { color: var(--blue); font-size: 9px; }
+.pilot-hours-value { margin-top: 17px; font-size: 27px; letter-spacing: -.05em; }
+.pilot-hours-value small { color: var(--muted-2); font-size: 9px; letter-spacing: .13em; }
+.pilot-id-label { margin-top: 5px; color: var(--muted-2); font-size: 8px; letter-spacing: .1em; }
+.pilot-profile-link { display: inline-flex; align-items: center; gap: 5px; margin-top: auto; padding-top: 13px; color: var(--blue); font-size: 9px; font-weight: 700; }
+.pilot-leader-1 { border-color: rgba(227,196,124,.3); background: linear-gradient(150deg, rgba(72,59,34,.28), rgba(7,20,35,.75)); }
+.pilot-roster-list { display: grid; gap: 8px; }
+.pilot-roster-row { display: grid; grid-template-columns: 34px 42px minmax(0,1fr) minmax(90px,.55fr) 95px 32px; gap: 12px; align-items: center; min-width: 0; padding: 11px 15px; }
+.pilot-roster-position { color: var(--muted-2); font-size: 10px; font-weight: 750; }
+.pilot-roster-avatar { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; background: rgba(127,194,255,.08); color: #dcecff; object-fit: cover; }
+.pilot-roster-avatar-fallback { font-size: 11px; font-weight: 750; }
+.pilot-roster-identity { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.pilot-roster-identity strong { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.pilot-roster-identity span { color: var(--muted-2); font-size: 8px; letter-spacing: .08em; }
+.pilot-roster-rank { overflow: hidden; color: var(--blue); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.pilot-roster-hours { color: var(--text); font-size: 12px; text-align: right; white-space: nowrap; }
+.pilot-roster-hours small { color: var(--muted-2); font-size: 8px; font-weight: 500; }
+.pilot-roster-link { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); }
+.pilot-roster-link:hover { border-color: var(--blue); color: var(--blue); }
+.pilot-roster-link-placeholder { width: 30px; height: 30px; }
+
+@media (max-width: 920px) {
+  .staff-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .about-intro-card { grid-template-columns: 1fr; }
+  .about-emblem { min-height: 230px; }
+  .about-principles-grid { grid-template-columns: 1fr; }
+  .about-principle-card { min-height: 175px; }
+  .about-principle-card h3 { margin-top: 18px; }
+  .about-mission-card { grid-template-columns: 1fr; gap: 13px; }
+  .pilot-stats-grid { grid-template-columns: 1fr; }
+  .pilot-leaders-grid { grid-template-columns: 1fr; }
+  .pilot-leader-card { min-height: 265px; }
+  .directory-summary-note { display: none; }
+}
+@media (max-width: 520px) {
+  .staff-grid { grid-template-columns: 1fr; }
+  .staff-card { min-height: 260px; }
+  .directory-summary { gap: 11px; padding: 14px; }
+  .directory-summary-divider { margin: 0 1px; }
+  .directory-summary strong { font-size: 18px; }
+  .directory-summary span:not(.directory-summary-note) { font-size: 8px; }
+  .pilot-roster-row { grid-template-columns: 24px 36px minmax(0,1fr) 72px 27px; gap: 8px; padding: 10px; }
+  .pilot-roster-avatar { width: 34px; height: 34px; }
+  .pilot-roster-rank { display: none; }
+  .pilot-roster-hours { font-size: 10px; }
+  .pilot-roster-link { width: 27px; height: 27px; }
+  .pilot-roster-link-placeholder { width: 27px; height: 27px; }
+  .community-hero { padding-top: 48px; }
+  .community-hero-actions { display: grid; grid-template-columns: 1fr; }
+  .community-hero-actions a { width: 100%; }
+}
