@@ -22,7 +22,20 @@ const fonts: FontOption[] = [
   { id: "montserrat", name: "Montserrat", sample: "Structured and editorial" },
   { id: "roboto", name: "Roboto", sample: "Neutral and familiar" },
   { id: "nunito-sans", name: "Nunito Sans", sample: "Open and approachable" },
-];
+ ];
+const fontFamilies: Record<string, string> = {
+  inter: 'Inter, "Segoe UI", sans-serif',
+  manrope: 'Manrope, "Segoe UI", sans-serif',
+  poppins: 'Poppins, "Trebuchet MS", sans-serif',
+  montserrat: 'Montserrat, "Segoe UI", sans-serif',
+  roboto: 'Roboto, Arial, sans-serif',
+  "nunito-sans": '"Nunito Sans", "Segoe UI", sans-serif',
+};
+function applyFont(value: string) {
+  const family = fontFamilies[value] || fontFamilies.inter;
+  document.documentElement.dataset.font = value;
+  document.documentElement.style.setProperty("--site-font", family);
+}
 
 export function SettingsPanel() {
   const [theme, setTheme] = useState("midnight-aviation");
@@ -37,10 +50,10 @@ export function SettingsPanel() {
       setTheme(nextTheme);
       setFont(nextFont);
       document.documentElement.dataset.theme = nextTheme;
-      document.documentElement.dataset.font = nextFont;
+      applyFont(nextFont);
     } catch {
       document.documentElement.dataset.theme = "midnight-aviation";
-      document.documentElement.dataset.font = "inter";
+      applyFont("inter");
     }
   }, []);
 
@@ -52,7 +65,7 @@ export function SettingsPanel() {
   }
   function updateFont(value: string) {
     setFont(value);
-    document.documentElement.dataset.font = value;
+    applyFont(value);
     localStorage.setItem("anvg-preferences", JSON.stringify({ theme, font: value }));
     setSaved(false);
   }
@@ -60,7 +73,7 @@ export function SettingsPanel() {
     setTheme("midnight-aviation");
     setFont("inter");
     document.documentElement.dataset.theme = "midnight-aviation";
-    document.documentElement.dataset.font = "inter";
+    applyFont("inter");
     localStorage.setItem("anvg-preferences", JSON.stringify({ theme: "midnight-aviation", font: "inter" }));
     setSaved(true);
   }
