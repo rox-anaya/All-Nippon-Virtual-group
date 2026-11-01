@@ -615,3 +615,116 @@ button { color: inherit; }
   .community-hero-actions { display: grid; grid-template-columns: 1fr; }
   .community-hero-actions a { width: 100%; }
 }
+
+/* Stage 4 — network, fleet, events and codeshare pages */
+.hero-aircraft-image { object-fit: cover; }
+.network-page, .content-page { padding-bottom: 110px; }
+.network-globe-section { display: grid; grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr); gap: 24px; align-items: center; margin-top: 48px; }
+.network-globe-copy h2 { margin: 12px 0; font-size: clamp(26px,3.5vw,38px); line-height: 1.1; letter-spacing: -.045em; }
+.network-globe-copy p { max-width: 460px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.network-filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 23px; }
+.network-filter { min-height: 34px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.025); color: var(--muted); font-size: 10px; cursor: pointer; }
+.network-filter.is-selected { border-color: rgba(127,194,255,.5); background: rgba(127,194,255,.12); color: var(--text); }
+.network-globe-card { min-width: 0; padding: 17px; overflow: hidden; }
+.network-globe-topline { display: flex; justify-content: space-between; gap: 12px; color: var(--muted-2); font-size: 8px; letter-spacing: .14em; }
+.network-globe-topline > span:first-child { display: flex; align-items: center; gap: 8px; color: #9ad8bb; }
+.network-globe-topline .status-dot { width: 6px; height: 6px; }
+.network-globe-stage { position: relative; display: grid; min-height: 350px; place-items: center; overflow: hidden; perspective: 900px; }
+.network-globe { position: relative; width: min(82%, 330px); aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(127,194,255,.38); border-radius: 50%; background: radial-gradient(circle at 33% 29%, rgba(69,137,181,.42), transparent 24%), radial-gradient(circle at 65% 68%, rgba(13,72,112,.72), rgba(3,15,29,.98) 68%); box-shadow: inset -30px -15px 55px rgba(0,0,0,.65), inset 15px 12px 35px rgba(122,192,233,.12), 0 0 55px rgba(41,125,177,.14); animation: globe-turn 42s linear infinite; transform-style: preserve-3d; }
+.network-globe::before { position: absolute; inset: 0; border-radius: 50%; background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(157,208,239,.12) 32px 33px), repeating-linear-gradient(90deg, transparent 0 43px, rgba(157,208,239,.10) 44px 45px); content: ""; transform: scaleX(.55); }
+.network-globe::after { position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(90deg, transparent 48%, rgba(1,8,17,.55) 100%); content: ""; }
+.globe-latitudes, .globe-longitudes { position: absolute; z-index: 1; border: 1px solid rgba(159,213,245,.16); border-radius: 50%; }
+.globe-latitudes { inset: 22% 0; }
+.globe-longitudes { inset: 0 27%; }
+.globe-shine { position: absolute; z-index: 2; top: 7%; left: 14%; width: 48%; height: 30%; border-radius: 50%; background: rgba(149,207,239,.08); filter: blur(22px); transform: rotate(-32deg); }
+.globe-marker { position: absolute; z-index: 4; width: 8px; height: 8px; border: 2px solid #d7f1ff; border-radius: 50%; background: #56b7f2; box-shadow: 0 0 0 5px rgba(86,183,242,.13), 0 0 15px #56b7f2; }
+.globe-label { position: absolute; z-index: 5; color: var(--muted-2); font-size: 8px; font-weight: 750; letter-spacing: .2em; }
+.globe-label-japan { top: 45%; right: 8%; color: #b5dff8; }
+.globe-label-network { bottom: 12px; left: 12px; }
+@keyframes globe-turn { from { transform: rotateY(-12deg); } to { transform: rotateY(348deg); } }
+@media (prefers-reduced-motion: reduce) { .network-globe { animation: none; } }
+.network-globe-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted-2); font-size: 8px; }
+.network-globe-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend-hub { width: 7px; height: 7px; border-radius: 50%; background: #56b7f2; box-shadow: 0 0 8px #56b7f2; }
+.legend-route { width: 14px; height: 1px; background: var(--red); }
+.network-globe-legend .network-globe-note { margin-left: auto; }
+.network-airlines-section, .network-hubs-section, .network-routes-section, .content-section { margin-top: 70px; }
+.network-airline-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; }
+.network-airline-card { display: flex; gap: 17px; align-items: flex-start; min-width: 0; padding: 22px; }
+.network-airline-mark { display: grid; width: 54px; height: 54px; flex: 0 0 54px; place-items: center; overflow: hidden; border: 1px solid color-mix(in srgb,var(--airline-accent),transparent 55%); border-radius: 15px; background: color-mix(in srgb,var(--airline-accent),transparent 91%); color: var(--airline-accent); font-size: 13px; font-weight: 800; }
+.network-airline-mark img { width: 100%; height: 100%; object-fit: contain; }
+.network-airline-copy { min-width: 0; }
+.network-airline-category { color: var(--airline-accent); font-size: 8px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+.network-airline-copy h3 { margin: 6px 0 7px; font-size: 19px; letter-spacing: -.03em; }
+.network-airline-copy p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.network-airline-copy small { display: block; margin-top: 9px; color: var(--muted-2); font-size: 9px; }
+.network-hub-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+.network-hub-card { min-width: 0; overflow: hidden; }
+.network-hub-image { display: block; width: 100%; height: 125px; object-fit: cover; }
+.network-hub-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: radial-gradient(circle at 50% 35%,rgba(60,131,177,.28),transparent 58%),rgba(4,15,27,.7); color: var(--blue); }
+.network-hub-placeholder span { color: var(--muted-2); font-size: 8px; letter-spacing: .17em; }
+.network-hub-info { padding: 15px; }
+.network-hub-info h3 { margin: 8px 0 3px; font-size: 16px; }
+.network-hub-info p { margin: 0 0 9px; color: var(--blue); font-size: 10px; }
+.network-hub-info small { color: var(--muted); font-size: 9px; line-height: 1.6; }
+.network-route-group { margin-top: 11px; overflow: hidden; }
+.network-route-group summary { display: flex; min-height: 68px; align-items: center; gap: 13px; padding: 13px 17px; cursor: pointer; list-style: none; }
+.network-route-group summary::-webkit-details-marker { display: none; }
+.route-group-mark { width: 4px; height: 35px; border-radius: 9px; }
+.route-group-name { display: flex; flex: 1; flex-direction: column; gap: 4px; }
+.route-group-name strong { font-size: 13px; }
+.route-group-name small { color: var(--muted-2); font-size: 9px; }
+.route-group-count { color: var(--muted-2); font-size: 8px; letter-spacing: .13em; }
+.network-route-list { border-top: 1px solid var(--line); }
+.network-route-row { display: grid; grid-template-columns: 150px minmax(0,1fr) minmax(120px,.6fr); align-items: center; gap: 15px; padding: 14px 18px; border-bottom: 1px solid rgba(184,211,239,.07); }
+.network-route-row:last-child { border-bottom: 0; }
+.route-airports { display: flex; align-items: center; gap: 9px; }
+.route-airports strong { font-size: 12px; letter-spacing: .05em; }
+.route-airports span { color: var(--red); }
+.route-description { display: flex; flex-direction: column; gap: 5px; color: var(--text); font-size: 11px; }
+.route-description small, .route-detail-note { color: var(--muted-2); font-size: 9px; }
+.network-empty-state, .content-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 28px; color: var(--muted-2); text-align: center; }
+.network-empty-state p, .content-empty p { max-width: 460px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.network-data-note { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; color: var(--muted-2); font-size: 10px; }
+.content-feature-strip { display: flex; align-items: center; gap: 15px; margin-top: 35px; padding: 20px 23px; color: var(--blue); }
+.content-feature-strip > div { display: flex; flex: 1; flex-direction: column; gap: 5px; }
+.content-feature-strip strong { color: var(--text); font-size: 13px; }
+.content-feature-strip span { color: var(--muted); font-size: 10px; line-height: 1.6; }
+.content-feature-strip .content-feature-count { color: var(--muted-2); font-size: 8px; letter-spacing: .15em; white-space: nowrap; }
+.division-stack { display: grid; gap: 48px; margin-top: 55px; }
+.division-heading { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 16px; }
+.division-accent { width: 4px; min-height: 62px; flex: 0 0 4px; border-radius: 8px; }
+.division-heading h2 { margin: 5px 0; font-size: 26px; letter-spacing: -.04em; }
+.division-heading p { max-width: 720px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.fleet-grid, .event-grid, .partner-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.fleet-card { min-width: 0; overflow: hidden; }
+.fleet-card > img { display: block; width: 100%; height: 210px; object-fit: cover; }
+.fleet-image-placeholder, .event-banner-placeholder { display: flex; height: 190px; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: radial-gradient(circle at center,rgba(55,126,174,.2),transparent 60%),rgba(3,14,26,.8); color: var(--blue); }
+.fleet-image-placeholder span, .event-banner-placeholder span { color: var(--muted-2); font-size: 8px; letter-spacing: .16em; }
+.fleet-card-copy { padding: 18px; }
+.fleet-card-copy h3 { margin: 6px 0 3px; font-size: 19px; }
+.fleet-card-copy > small { color: var(--blue); font-size: 10px; }
+.fleet-card-copy p { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.event-card { overflow: hidden; }
+.event-card > img { display: block; width: 100%; height: 190px; object-fit: cover; }
+.event-card-copy { padding: 19px; }
+.event-card-copy h3 { margin: 7px 0; font-size: 20px; }
+.event-card-copy p, .news-card p, .partner-card p { color: var(--muted); font-size: 11px; line-height: 1.7; }
+.event-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; color: var(--muted-2); font-size: 9px; }
+.event-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.news-list { display: grid; gap: 11px; }
+.news-card { display: grid; grid-template-columns: 170px minmax(0,1fr); gap: 18px; padding: 14px; }
+.news-card > img { width: 100%; height: 125px; border-radius: 12px; object-fit: cover; }
+.news-card h3 { margin: 7px 0; font-size: 17px; }
+.news-card p { margin: 0; }
+.partner-card { display: flex; align-items: flex-start; gap: 15px; padding: 21px; }
+.partner-card > img, .partner-mark { display: grid; width: 58px; height: 58px; flex: 0 0 58px; place-items: center; border: 1px solid var(--line-strong); border-radius: 14px; object-fit: contain; }
+.partner-mark { color: var(--blue); }
+.partner-card > div:nth-child(2) { flex: 1; }
+.partner-card h2 { margin: 6px 0; font-size: 19px; }
+.partner-card p { margin: 0; }
+.partner-card small { display: block; margin-top: 9px; color: var(--muted-2); font-size: 9px; }
+.partner-card > svg { color: var(--muted-2); }
+@media (max-width: 920px) { .network-globe-section { grid-template-columns: 1fr; } .network-globe-copy { max-width: 700px; } .network-hub-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 650px) { .network-airline-grid, .fleet-grid, .event-grid, .partner-grid { grid-template-columns: 1fr; } .network-route-row { grid-template-columns: 1fr; gap: 7px; } .route-detail-note { display: none; } .network-globe-stage { min-height: 300px; } .network-globe { width: min(78%,280px); } .network-globe-legend .network-globe-note { width: 100%; margin-left: 0; } .news-card { grid-template-columns: 1fr; } .news-card > img { height: 170px; } .content-feature-strip { align-items: flex-start; } .content-feature-strip .content-feature-count { display: none; } }
+@media (max-width: 420px) { .network-hub-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .network-hub-image { height: 95px; } .network-hub-info { padding: 11px; } .network-hub-info h3 { font-size: 14px; } .network-filter { font-size: 9px; padding-inline: 9px; } .network-route-group summary { padding-inline: 12px; } }
