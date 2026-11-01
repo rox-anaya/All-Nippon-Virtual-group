@@ -1,0 +1,14 @@
+{
+  "name": "All Nippon Virtual Group",
+  "short_name": "ANVG",
+  "description": "Official All Nippon Virtual Group community airline portal on Waypoints.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#06111f",
+  "theme_color": "#071426",
+  "icons": [
+    { "src": "/anvg-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
