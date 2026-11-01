@@ -65,6 +65,7 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
   const [selectedHub, setSelectedHub] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [globeReady, setGlobeReady] = useState(false);
+  const [globeError, setGlobeError] = useState(false);
   const visibleHubs = useMemo(() => selectedAirline === "all" ? hubs : hubs.filter((hub) => airlines.find((airline) => airline.id === selectedAirline)?.hub_icaos.includes(hub.icao)), [airlines, hubs, selectedAirline]);
   const filteredRoutes = useMemo(() => selectedAirline === "all" ? routes : routes.filter((route) => route.airline_division_id === selectedAirline), [routes, selectedAirline]);
   const activeHub = visibleHubs.find((hub) => hub.id === selectedHub) ?? null;
@@ -74,13 +75,16 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
     let resizeObserver: ResizeObserver | undefined;
     let instance: GlobeInstance | null = null;
     async function initialise() {
-      if (!mountRef.current) return;
-      const imported = await import("globe.gl");
-      if (cancelled || !mountRef.current) return;
-      const GlobeFactory = (imported.default ?? imported) as unknown as (element: HTMLElement) => GlobeInstance;
-      const globe = GlobeFactory(mountRef.current);
-      instance = globe;
-      globe
+      try {
+        const container = mountRef.current;
+        if (!container) return;
+        const imported = await import("globe.gl");
+        if (cancelled || !mountRef.current) return;
+        // Globe.gl uses a two-step factory: Globe()(container).
+        const GlobeFactory = (imported.default ?? imported) as unknown as () => (element: HTMLElement) => GlobeInstance;
+        const globe = GlobeFactory()(container);
+        instance = globe;
+        globe
         .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-night.jpg")
         .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
         .backgroundColor("rgba(0,0,0,0)")
@@ -132,7 +136,11 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
           globe.height(Math.max(320, Math.floor(box.height)));
         }
       });
-      resizeObserver.observe(mountRef.current);
+        resizeObserver.observe(container);
+      } catch (error) {
+        console.error("ANVG globe initialisation failed:", error);
+        if (!cancelled) setGlobeError(true);
+      }
     }
     void initialise();
     return () => {
@@ -180,7 +188,7 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
       <div className="network-globe-card glass-panel">
         <div className="network-globe-topline"><span><span className="status-dot"/> GPS NETWORK VIEW</span><span>{visibleHubs.length} HUBS · {filteredRoutes.length} ROUTES</span></div>
         <div className="anvg-globe-stage"><div ref={mountRef} className="anvg-globe-mount" aria-label="Interactive three-dimensional Earth globe with geographic airport labels" />
-          {!globeReady && <div className="anvg-globe-loading">Preparing global network…</div>}
+          {!globeReady && <div className="anvg-globe-loading">{globeError ? "The 3D globe could not load. Please refresh and check your connection." : "Preparing global network…"}</div>}
           <div className="anvg-globe-controls"><button type="button" onClick={toggleRotation} className="anvg-globe-control" aria-label={isPaused ? "Resume globe rotation" : "Pause globe rotation"}>{isPaused ? <Play size={15}/> : <Pause size={15}/>}<span>{isPaused ? "Resume" : "Pause"}</span></button><button type="button" onClick={resetGlobe} className="anvg-globe-control"><RotateCcw size={15}/><span>Reset view</span></button></div>
           <div className="anvg-globe-hint">Drag to rotate · Pinch or scroll to zoom</div>
         </div>
