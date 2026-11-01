@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 type Division = { id: string; name: string; category: string; description: string; logo_url: string | null; brand_color: string; hub_icaos: string[]; fleet_types: string[] };
 type Hub = { id: string; name: string; icao: string; description: string; image_url: string | null; latitude: number; longitude: number; city: string; is_primary_hub: boolean };
-type Route = { id: string; route_name: string; origin: string; origin_icao: string; destination: string; destination_icao: string; airline_division_id: string | null; airline_name: string; aircraft_names: string[]; notes: string };
+type Route = { id: string; route_name: string; origin: string; origin_icao: string; origin_latitude: number; origin_longitude: number; destination: string; destination_icao: string; destination_latitude: number; destination_longitude: number; airline_division_id: string | null; airline_name: string; aircraft_names: string[]; notes: string };
 
 export default async function RoutesPage() {
   const supabase = await createClient();
@@ -36,7 +36,7 @@ export default async function RoutesPage() {
         const origin = locations.find((item) => item.id === route.origin_location_id);
         const destination = locations.find((item) => item.id === route.destination_location_id);
         const airline = airlines.find((item) => item.id === route.airline_division_id);
-        return { id: route.id, route_name: route.route_name, origin: origin?.name ?? "Origin", origin_icao: origin?.icao ?? "----", destination: destination?.name ?? "Destination", destination_icao: destination?.icao ?? "----", airline_division_id: route.airline_division_id, airline_name: airline?.name ?? "ANVG", aircraft_names: airline?.fleet_types ?? [], notes: route.notes };
+        return { id: route.id, route_name: route.route_name, origin: origin?.name ?? "Origin", origin_icao: origin?.icao ?? "----", origin_latitude: origin?.latitude ?? 35.6762, origin_longitude: origin?.longitude ?? 139.6503, destination: destination?.name ?? "Destination", destination_icao: destination?.icao ?? "----", destination_latitude: destination?.latitude ?? 35.6762, destination_longitude: destination?.longitude ?? 139.6503, airline_division_id: route.airline_division_id, airline_name: airline?.name ?? "ANVG", aircraft_names: airline?.fleet_types ?? [], notes: route.notes };
       }) as Route[];
     }
   }
