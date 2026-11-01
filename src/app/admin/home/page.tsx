@@ -52,8 +52,8 @@ export default async function HomeManagementPage() {
     supabase.from("home_showcase").select("id, title, image_url, alt_text, object_position, display_order").order("display_order", { ascending: true }),
   ]);
 
-  const settingsRow = settingsResult.data ?? {};
-  const initialSettings = {
+  const settingsRow = (settingsResult.data ?? {}) as Partial<Record<keyof typeof defaults, string | null>>;
+  const initialSettings: typeof defaults = {
     ...defaults,
     ...settingsRow,
     footer_instagram_url: settingsRow.footer_instagram_url ?? "",
