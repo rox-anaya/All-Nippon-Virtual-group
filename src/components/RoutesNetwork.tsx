@@ -17,17 +17,17 @@ type GlobeInstance = {
   atmosphereColor(color: string): GlobeInstance;
   atmosphereAltitude(value: number): GlobeInstance;
   htmlElementsData(data: Hub[]): GlobeInstance;
-  htmlLat(d: Hub): number;
-  htmlLng(d: Hub): number;
-  htmlElement(d: Hub): HTMLElement;
+  htmlLat(accessor: (d: Hub) => number): GlobeInstance;
+  htmlLng(accessor: (d: Hub) => number): GlobeInstance;
+  htmlElement(accessor: (d: Hub) => HTMLElement): GlobeInstance;
   htmlElementVisibilityModifier(fn: (element: HTMLElement, isVisible: boolean) => void): GlobeInstance;
   htmlAltitude(value: number): GlobeInstance;
   arcsData(data: Route[]): GlobeInstance;
-  arcStartLat(d: Route): number;
-  arcStartLng(d: Route): number;
-  arcEndLat(d: Route): number;
-  arcEndLng(d: Route): number;
-  arcColor(d: Route): string;
+  arcStartLat(accessor: (d: Route) => number): GlobeInstance;
+  arcStartLng(accessor: (d: Route) => number): GlobeInstance;
+  arcEndLat(accessor: (d: Route) => number): GlobeInstance;
+  arcEndLng(accessor: (d: Route) => number): GlobeInstance;
+  arcColor(accessor: (d: Route) => string): GlobeInstance;
   arcAltitudeAutoScale(value: number): GlobeInstance;
   arcStroke(value: number): GlobeInstance;
   arcDashLength(value: number): GlobeInstance;
@@ -78,7 +78,9 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
       const imported = await import("globe.gl");
       if (cancelled || !mountRef.current) return;
       const GlobeFactory = (imported.default ?? imported) as unknown as (element: HTMLElement) => GlobeInstance;
-      instance = GlobeFactory(mountRef.current)
+      const globe = GlobeFactory(mountRef.current);
+      instance = globe;
+      globe
         .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-night.jpg")
         .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
         .backgroundColor("rgba(0,0,0,0)")
@@ -114,20 +116,20 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
         .arcDashLength(0.42)
         .arcDashGap(0.18)
         .arcDashAnimateTime(2600);
-      const controls = instance.controls();
+      const controls = globe.controls();
       controls.autoRotate = true;
       controls.autoRotateSpeed = 0.28;
       controls.enableZoom = true;
       controls.minDistance = 150;
       controls.maxDistance = 520;
-      instance.pointOfView({ lat: 29, lng: 137, altitude: 1.9 }, 0);
-      globeRef.current = instance;
+      globe.pointOfView({ lat: 29, lng: 137, altitude: 1.9 }, 0);
+      globeRef.current = globe;
       setGlobeReady(true);
       resizeObserver = new ResizeObserver((entries) => {
         const box = entries[0]?.contentRect;
         if (box && instance) {
-          instance.width(Math.max(280, Math.floor(box.width)));
-          instance.height(Math.max(320, Math.floor(box.height)));
+          globe.width(Math.max(280, Math.floor(box.width)));
+          globe.height(Math.max(320, Math.floor(box.height)));
         }
       });
       resizeObserver.observe(mountRef.current);
