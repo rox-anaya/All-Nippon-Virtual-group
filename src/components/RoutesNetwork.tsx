@@ -37,8 +37,6 @@ type GlobeInstance = {
   height(value: number): GlobeInstance;
   pointOfView(view: { lat: number; lng: number; altitude: number }, ms?: number): GlobeInstance;
   controls(): { autoRotate: boolean; autoRotateSpeed: number; enableZoom: boolean; minDistance: number; maxDistance: number; update(): void };
-  pauseAnimation(): GlobeInstance;
-  resumeAnimation(): GlobeInstance;
   _destructor(): void;
 };
 
@@ -65,7 +63,6 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
   const [selectedHub, setSelectedHub] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [globeReady, setGlobeReady] = useState(false);
-  const [globeError, setGlobeError] = useState(false);
   const visibleHubs = useMemo(() => selectedAirline === "all" ? hubs : hubs.filter((hub) => airlines.find((airline) => airline.id === selectedAirline)?.hub_icaos.includes(hub.icao)), [airlines, hubs, selectedAirline]);
   const filteredRoutes = useMemo(() => selectedAirline === "all" ? routes : routes.filter((route) => route.airline_division_id === selectedAirline), [routes, selectedAirline]);
   const activeHub = visibleHubs.find((hub) => hub.id === selectedHub) ?? null;
@@ -75,16 +72,13 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
     let resizeObserver: ResizeObserver | undefined;
     let instance: GlobeInstance | null = null;
     async function initialise() {
-      try {
-        const container = mountRef.current;
-        if (!container) return;
-        const imported = await import("globe.gl");
-        if (cancelled || !mountRef.current) return;
-        // Globe.gl uses a two-step factory: Globe()(container).
-        const GlobeFactory = (imported.default ?? imported) as unknown as () => (element: HTMLElement) => GlobeInstance;
-        const globe = GlobeFactory()(container);
-        instance = globe;
-        globe
+      if (!mountRef.current) return;
+      const imported = await import("globe.gl");
+      if (cancelled || !mountRef.current) return;
+      const GlobeFactory = (imported.default ?? imported) as unknown as (element: HTMLElement) => GlobeInstance;
+      const globe = GlobeFactory(mountRef.current);
+      instance = globe;
+      globe
         .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-night.jpg")
         .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
         .backgroundColor("rgba(0,0,0,0)")
@@ -100,13 +94,22 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
           el.type = "button";
           el.className = "anvg-globe-marker";
           el.dataset.hubId = hub.id;
+          const labelPositions: Record<string, string> = {
+            RJTT: "top-right",
+            RJAA: "bottom-right",
+            RJBB: "top-left",
+            RJGG: "bottom-left",
+          };
+          el.dataset.labelPosition = labelPositions[hub.icao] ?? "top-right";
           el.setAttribute("aria-label", `${hub.name} (${hub.icao})`);
           el.innerHTML = `<span class="anvg-globe-marker-dot"></span><span class="anvg-globe-marker-label">${hub.icao}</span>`;
           el.addEventListener("click", () => setSelectedHub(hub.id));
           return el;
         })
         .htmlElementVisibilityModifier((element, isVisible) => {
-          element.style.display = isVisible ? "block" : "none";
+          // Hide labels completely when their geographic point is on the far side.
+          element.style.visibility = isVisible ? "visible" : "hidden";
+          element.style.opacity = isVisible ? "1" : "0";
           element.style.pointerEvents = isVisible ? "auto" : "none";
         })
         .arcsData(routes)
@@ -136,11 +139,7 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
           globe.height(Math.max(320, Math.floor(box.height)));
         }
       });
-        resizeObserver.observe(container);
-      } catch (error) {
-        console.error("ANVG globe initialisation failed:", error);
-        if (!cancelled) setGlobeError(true);
-      }
+      resizeObserver.observe(mountRef.current);
     }
     void initialise();
     return () => {
@@ -160,18 +159,23 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
   const toggleRotation = useCallback(() => {
     const globe = globeRef.current;
     if (!globe) return;
-    const next = !isPaused;
-    if (next) globe.pauseAnimation(); else globe.resumeAnimation();
-    globe.controls().autoRotate = !next;
-    setIsPaused(next);
+    const nextPaused = !isPaused;
+    // Only disable automatic rotation. Keep the render loop and OrbitControls
+    // running so the user can still drag and zoom while rotation is paused.
+    const controls = globe.controls();
+    controls.autoRotate = !nextPaused;
+    controls.update();
+    setIsPaused(nextPaused);
   }, [isPaused]);
 
   const resetGlobe = useCallback(() => {
     const globe = globeRef.current;
     if (!globe) return;
+    // Reset the camera even while paused, without changing the pause state.
     globe.pointOfView({ lat: 29, lng: 137, altitude: 1.9 }, 900);
-    globe.controls().autoRotate = !isPaused;
-    if (isPaused) globe.pauseAnimation(); else globe.resumeAnimation();
+    const controls = globe.controls();
+    controls.autoRotate = !isPaused;
+    controls.update();
   }, [isPaused]);
 
   return <>
@@ -185,11 +189,14 @@ export function RoutesNetwork({ airlines, hubs, routes }: { airlines: Airline[];
           {airlines.map((airline) => <button key={airline.id} className={selectedAirline === airline.id ? "network-filter is-selected" : "network-filter"} onClick={() => { setSelectedAirline(airline.id); setSelectedHub(null); }}>{airline.name}</button>)}
         </div>
       </div>
+      <div className="anvg-globe-toolbar" aria-label="Globe controls">
+        <button type="button" onClick={toggleRotation} className="anvg-globe-control" aria-label={isPaused ? "Resume globe rotation" : "Pause globe rotation"}>{isPaused ? <Play size={15}/> : <Pause size={15}/>}<span>{isPaused ? "Resume" : "Pause"}</span></button>
+        <button type="button" onClick={resetGlobe} className="anvg-globe-control"><RotateCcw size={15}/><span>Reset view</span></button>
+      </div>
       <div className="network-globe-card glass-panel">
         <div className="network-globe-topline"><span><span className="status-dot"/> GPS NETWORK VIEW</span><span>{visibleHubs.length} HUBS · {filteredRoutes.length} ROUTES</span></div>
         <div className="anvg-globe-stage"><div ref={mountRef} className="anvg-globe-mount" aria-label="Interactive three-dimensional Earth globe with geographic airport labels" />
-          {!globeReady && <div className="anvg-globe-loading">{globeError ? "The 3D globe could not load. Please refresh and check your connection." : "Preparing global network…"}</div>}
-          <div className="anvg-globe-controls"><button type="button" onClick={toggleRotation} className="anvg-globe-control" aria-label={isPaused ? "Resume globe rotation" : "Pause globe rotation"}>{isPaused ? <Play size={15}/> : <Pause size={15}/>}<span>{isPaused ? "Resume" : "Pause"}</span></button><button type="button" onClick={resetGlobe} className="anvg-globe-control"><RotateCcw size={15}/><span>Reset view</span></button></div>
+          {!globeReady && <div className="anvg-globe-loading">Preparing global network…</div>}
           <div className="anvg-globe-hint">Drag to rotate · Pinch or scroll to zoom</div>
         </div>
         <div className="network-globe-legend"><span><i className="legend-hub"/> Operational hubs</span><span><i className="legend-route"/> Published routes</span><span className="network-globe-note">Far-side airport labels hide automatically.</span></div>
