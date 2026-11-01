@@ -51,17 +51,18 @@ export default async function HomeManagementPage() {
     supabase.from("home_statistics").select("id, metric_key, label, value, display_order").order("display_order", { ascending: true }),
     supabase.from("home_showcase").select("id, title, image_url, alt_text, object_position, display_order").order("display_order", { ascending: true }),
   ]);
+  
+const settingsRow = (settingsResult.data ?? {}) as Partial<
+  Record<keyof typeof defaults, string | null>
+>;
 
-  const settingsRow = (settingsResult.data ?? {}) as Partial<Record<keyof typeof defaults, string | null>>;
-  const initialSettings: typeof defaults = {
-    ...defaults,
-    ...settingsRow,
-    footer_instagram_url: settingsRow.footer_instagram_url ?? "",
-    footer_vk_url: settingsRow.footer_vk_url ?? "",
-    menu_button_url: settingsRow.menu_button_url ?? "",
-  };
-  const initialMetrics = (metricsResult.data ?? []) as Metric[];
-  const initialSlides = (showcaseResult.data ?? []) as ShowcaseSlide[];
+const initialSettings: typeof defaults = Object.fromEntries(
+  Object.keys(defaults).map((key) => [
+    key,
+    settingsRow[key as keyof typeof defaults] ??
+      defaults[key as keyof typeof defaults],
+  ])
+) as typeof defaults;
 
   return (
     <main className="admin-dashboard-screen">
