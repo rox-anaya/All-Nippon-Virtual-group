@@ -738,11 +738,15 @@ button { color: inherit; }
 .anvg-globe-mount { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
 .anvg-globe-mount:active { cursor: grabbing; }
 .anvg-globe-mount canvas { display: block; max-width: 100%; }
-.anvg-globe-marker { display: flex; align-items: center; gap: 5px; padding: 3px 6px; border: 1px solid rgba(129,208,255,.44); border-radius: 999px; background: rgba(4,17,31,.88); color: #eff8ff; font: 700 9px/1 Inter, sans-serif; letter-spacing: .08em; white-space: nowrap; box-shadow: 0 3px 13px rgba(0,0,0,.42),0 0 12px rgba(57,167,225,.16); cursor: pointer; transform: translateY(-50%); transition: opacity .15s ease,background .15s ease; }
-.anvg-globe-marker:hover { background: rgba(18,66,98,.96); }
-.anvg-globe-marker-dot { width: 6px; height: 6px; flex: 0 0 6px; border-radius: 50%; background: #6ed3ff; box-shadow: 0 0 8px #6ed3ff; }
-.anvg-globe-marker-label { pointer-events: none; }
-.anvg-globe-controls { position: absolute; z-index: 3; top: 13px; right: 13px; display: flex; gap: 8px; }
+.anvg-globe-marker { position: relative; display: block; width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; transform: translate(-50%,-50%); }
+.anvg-globe-marker-dot { position: absolute; z-index: 2; top: 50%; left: 50%; width: 8px; height: 8px; border: 1px solid rgba(225,247,255,.9); border-radius: 50%; background: #6ed3ff; box-shadow: 0 0 9px #6ed3ff,0 0 17px rgba(67,185,255,.6); transform: translate(-50%,-50%); }
+.anvg-globe-marker-label { position: absolute; z-index: 1; display: block; padding: 4px 7px; border: 1px solid rgba(129,208,255,.52); border-radius: 999px; background: rgba(4,17,31,.94); color: #eff8ff; font: 700 9px/1 Inter,sans-serif; letter-spacing: .08em; white-space: nowrap; box-shadow: 0 3px 13px rgba(0,0,0,.5),0 0 12px rgba(57,167,225,.2); pointer-events: none; }
+.anvg-globe-marker[data-label-position="top-right"] .anvg-globe-marker-label { left: 10px; bottom: 8px; }
+.anvg-globe-marker[data-label-position="bottom-right"] .anvg-globe-marker-label { left: 10px; top: 8px; }
+.anvg-globe-marker[data-label-position="top-left"] .anvg-globe-marker-label { right: 10px; bottom: 8px; }
+.anvg-globe-marker[data-label-position="bottom-left"] .anvg-globe-marker-label { right: 10px; top: 8px; }
+.anvg-globe-marker:hover .anvg-globe-marker-label { border-color: rgba(110,201,255,.9); background: rgba(18,66,98,.98); }
+.anvg-globe-toolbar { display: flex; justify-content: flex-end; gap: 8px; margin: 14px 0 9px; }
 .anvg-globe-control { display: inline-flex; min-width: 112px; min-height: 39px; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 1px solid rgba(164,207,239,.27); border-radius: 11px; background: rgba(5,18,32,.88); color: #e8f5ff; font-size: 10px; font-weight: 700; box-shadow: 0 5px 18px rgba(0,0,0,.24); backdrop-filter: blur(12px); cursor: pointer; }
 .anvg-globe-control:hover { border-color: rgba(110,201,255,.7); background: rgba(15,54,80,.94); }
 .anvg-globe-control svg { color: #8bd6ff; }
@@ -755,5 +759,5 @@ button { color: inherit; }
 .gps-selected-hub span { color: var(--muted); font-size: 10px; }
 .gps-selected-hub button { margin-left: auto; border: 0; background: transparent; color: var(--muted); font-size: 20px; cursor: pointer; }
 @media (max-width: 920px) { .network-globe-section { grid-template-columns: 1fr; } .anvg-globe-stage { height: clamp(360px, 70vw, 500px); } }
-@media (max-width: 560px) { .network-globe-card { padding: 12px; } .anvg-globe-stage { height: 390px; } .anvg-globe-controls { top: 9px; right: 9px; left: 9px; justify-content: flex-end; } .anvg-globe-control { min-width: 104px; min-height: 37px; } .anvg-globe-hint { bottom: 8px; font-size: 8px; } .network-globe-topline { font-size: 7px; } .network-globe-legend .network-globe-note { width: 100%; margin-left: 0; } }
-@media (prefers-reduced-motion: reduce) { .anvg-globe-marker, .anvg-globe-control { transition: none; } }
+@media (max-width: 560px) { .network-globe-card { padding: 12px; } .anvg-globe-stage { height: 390px; } .anvg-globe-toolbar { margin-top: 12px; } .anvg-globe-control { min-width: 104px; min-height: 37px; } .anvg-globe-hint { bottom: 8px; font-size: 8px; } .network-globe-topline { font-size: 7px; } .network-globe-legend .network-globe-note { width: 100%; margin-left: 0; } }
+@media (prefers-reduced-motion: reduce) { .anvg-globe-control { transition: none; } }
