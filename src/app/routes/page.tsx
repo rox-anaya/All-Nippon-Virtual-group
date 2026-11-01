@@ -36,7 +36,7 @@ export default async function RoutesPage() {
         const origin = locations.find((item) => item.id === route.origin_location_id);
         const destination = locations.find((item) => item.id === route.destination_location_id);
         const airline = airlines.find((item) => item.id === route.airline_division_id);
-        return { id: route.id, route_name: route.route_name, origin: origin?.name ?? "Origin", origin_icao: origin?.icao ?? "----", origin_latitude: origin?.latitude ?? 35.6762, origin_longitude: origin?.longitude ?? 139.6503, destination: destination?.name ?? "Destination", destination_icao: destination?.icao ?? "----", destination_latitude: destination?.latitude ?? 35.6762, destination_longitude: destination?.longitude ?? 139.6503, airline_division_id: route.airline_division_id, airline_name: airline?.name ?? "ANVG", aircraft_names: airline?.fleet_types ?? [], notes: route.notes };
+        return { id: route.id, route_name: route.route_name, origin: origin?.name ?? "Origin", origin_icao: origin?.icao ?? "----", origin_latitude: Number(origin?.latitude ?? 35.6762), origin_longitude: Number(origin?.longitude ?? 139.6503), destination: destination?.name ?? "Destination", destination_icao: destination?.icao ?? "----", destination_latitude: Number(destination?.latitude ?? 35.6762), destination_longitude: Number(destination?.longitude ?? 139.6503), airline_division_id: route.airline_division_id, airline_name: airline?.name ?? "ANVG", aircraft_names: airline?.fleet_types ?? [], notes: route.notes };
       }) as Route[];
     }
   }
